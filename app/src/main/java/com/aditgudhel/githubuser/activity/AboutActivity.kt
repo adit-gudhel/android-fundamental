@@ -11,8 +11,8 @@ class AboutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about)
 
         val actionbar = supportActionBar
-        actionbar!!.title = "About"
-        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar?.title = "About"
+        actionbar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onSupportNavigateUp(): Boolean {

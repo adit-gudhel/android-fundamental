@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aditgudhel.githubuser.activity.DetailUserActivity
 import com.aditgudhel.githubuser.R
 import com.aditgudhel.githubuser.data.User
+import com.aditgudhel.githubuser.databinding.ItemUserBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -23,32 +24,30 @@ class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<
         return ListViewHolder(view)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val user = listUser[position]
+        with(holder) {
+            val user = listUser[position]
 
-        Glide.with(holder.itemView.context)
+            Glide.with(holder.itemView.context)
                 .load(user.avatar)
                 .apply(RequestOptions().override(125,125))
-                .into(holder.imgAvatar)
+                .into(binding.imgItemAvatar)
 
-        holder.tvName.text = user.name
-        holder.tvUsername.text = "@" + user.username
+            binding.tvItemName.text = user.name
+            binding.tvItemUsername.text = String.format("@ %s", user.username)
 
-        holder.cvUser.setOnClickListener {
-            val toDetailUserIntent = Intent(it.context, DetailUserActivity::class.java)
-            toDetailUserIntent.putExtra(DetailUserActivity.EXTRA_USER, user)
-            it.context.startActivity(toDetailUserIntent)
+            binding.cvUser.setOnClickListener {
+                val toDetailUserIntent = Intent(it.context, DetailUserActivity::class.java)
+                toDetailUserIntent.putExtra(DetailUserActivity.EXTRA_USER, user)
+                it.context.startActivity(toDetailUserIntent)
+            }
         }
     }
 
     override fun getItemCount(): Int = listUser.size
 
     inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
-        var tvUsername: TextView = itemView.findViewById(R.id.tv_item_username)
-        var imgAvatar: ImageView = itemView.findViewById(R.id.img_item_avatar)
-        var cvUser: CardView = itemView.findViewById(R.id.cv_user)
+        val binding = ItemUserBinding.bind(itemView)
     }
 
 }

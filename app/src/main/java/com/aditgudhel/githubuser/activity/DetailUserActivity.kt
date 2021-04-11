@@ -9,48 +9,42 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.aditgudhel.githubuser.R
 import com.aditgudhel.githubuser.data.User
+import com.aditgudhel.githubuser.databinding.ActivityDetailUserBinding
 
 class DetailUserActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDetailUserBinding
 
     companion object {
         const val EXTRA_USER = "extra_user"
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_user)
+        binding = ActivityDetailUserBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val ivAvatar:ImageView = findViewById(R.id.iv_avatar)
-        val tvName: TextView = findViewById(R.id.tv_name)
-        val tvUsername: TextView = findViewById(R.id.tv_username)
-        val tvCompany: TextView = findViewById(R.id.tv_company)
-        val tvLocation: TextView = findViewById(R.id.tv_location)
-        val tvRepository: TextView = findViewById(R.id.tv_repository)
-        val tvFollower: TextView = findViewById(R.id.tv_follower)
-        val tvFollowing: TextView = findViewById(R.id.tv_following)
-        val btnShare: Button = findViewById(R.id.btn_share)
-
-        val user = intent.getParcelableExtra<User>(EXTRA_USER) as User
+        val user = intent.getParcelableExtra<User>(EXTRA_USER)
 
         val actionbar = supportActionBar
-        actionbar!!.title = user.name
-        actionbar.setDisplayHomeAsUpEnabled(true)
+        actionbar?.title = user?.name
+        actionbar?.setDisplayHomeAsUpEnabled(true)
 
-        ivAvatar.setImageResource(user.avatar)
-        tvName.text = user.name
-        tvUsername.text = "@" + user.username
-        tvCompany.text = user.company
-        tvLocation.text = user.location
-        tvRepository.text = user.repository.toString()
-        tvFollower.text = user.follower.toString()
-        tvFollowing.text = user.following.toString()
+        user?.avatar?.let { binding.ivAvatar.setImageResource(it) }
+        binding.tvName.text = user?.name
+        binding.tvUsername.text = String.format("@ %s", user?.username)
+        binding.tvCompany.text = user?.company
+        binding.tvLocation.text = user?.location
+        binding.tvRepository.text = user?.repository.toString()
+        binding.tvFollower.text = user?.follower.toString()
+        binding.tvFollowing.text = user?.following.toString()
 
-        btnShare.setOnClickListener {
+        binding.btnShare.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_SUBJECT, "Github User's")
-                putExtra(Intent.EXTRA_TEXT, "https://github.com/" + user.username)
+                putExtra(Intent.EXTRA_TEXT, "https://github.com/${user?.username}")
                 type = "text/plain"
             }
             val shareIntent = Intent.createChooser(sendIntent, null)

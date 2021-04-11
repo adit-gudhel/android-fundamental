@@ -11,18 +11,20 @@ import com.aditgudhel.githubuser.R
 import com.aditgudhel.githubuser.adapter.UserAdapter
 import com.aditgudhel.githubuser.data.User
 import com.aditgudhel.githubuser.data.UserData
+import com.aditgudhel.githubuser.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var rvUsers: RecyclerView
+    private lateinit var binding: ActivityMainBinding
     private var list: ArrayList<User> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        rvUsers = findViewById(R.id.rv_users)
-        rvUsers.setHasFixedSize(true)
+        binding.rvUsers.setHasFixedSize(true)
 
         list.addAll(UserData.listData)
 
@@ -52,9 +54,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showRecyclerList() {
-        rvUsers.layoutManager = LinearLayoutManager(this)
+        binding.rvUsers.layoutManager = LinearLayoutManager(this)
         val listUserAdapter = UserAdapter(list)
-        rvUsers.adapter = listUserAdapter
+        binding.rvUsers.adapter = listUserAdapter
     }
 
 }
