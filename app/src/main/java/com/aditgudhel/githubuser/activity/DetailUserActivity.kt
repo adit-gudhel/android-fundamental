@@ -1,13 +1,14 @@
-package com.aditgudhel.githubuser
+package com.aditgudhel.githubuser.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import com.aditgudhel.githubuser.R
 import com.aditgudhel.githubuser.data.User
-import de.hdodenhof.circleimageview.CircleImageView
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -20,7 +21,7 @@ class DetailUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_user)
 
-        val civAvatar:CircleImageView = findViewById(R.id.civ_avatar)
+        val ivAvatar:ImageView = findViewById(R.id.iv_avatar)
         val tvName: TextView = findViewById(R.id.tv_name)
         val tvUsername: TextView = findViewById(R.id.tv_username)
         val tvCompany: TextView = findViewById(R.id.tv_company)
@@ -36,10 +37,10 @@ class DetailUserActivity : AppCompatActivity() {
         actionbar!!.title = user.name
         actionbar.setDisplayHomeAsUpEnabled(true)
 
-        civAvatar.setImageResource(user.avatar)
+        ivAvatar.setImageResource(user.avatar)
         tvName.text = user.name
         tvUsername.text = "@" + user.username
-        tvCompany.text = user.company + " | "
+        tvCompany.text = user.company
         tvLocation.text = user.location
         tvRepository.text = user.repository.toString()
         tvFollower.text = user.follower.toString()

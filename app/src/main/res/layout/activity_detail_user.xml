@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:padding="16dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/civ_avatar"
-        android:layout_marginTop="20dp"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:layout_gravity="center_horizontal"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF909090"/>
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/desc_avatar" />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/iv_avatar"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="16dp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:text="@string/github_name"/>
@@ -29,41 +29,47 @@
         android:id="@+id/tv_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_toEndOf="@+id/iv_avatar"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginStart="16dp"
         android:textSize="18sp"
         android:textColor="@color/purple_500"
         android:text="@string/github_username" />
 
     <LinearLayout
+        android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/iv_avatar"
+        android:layout_below="@+id/tv_username"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_company"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:textSize="14sp"
+            android:maxLines="2"
             android:text="@string/github_company" />
 
         <TextView
             android:id="@+id/tv_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:textSize="14sp"
+            android:maxLines="2"
             android:text="@string/github_location" />
-
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/social"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/location"
+        android:layout_centerHorizontal="true"
         android:orientation="horizontal">
 
         <TextView
@@ -118,7 +124,8 @@
         android:id="@+id/btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/social"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         android:text="@string/share_button"/>
-</LinearLayout>
+</RelativeLayout>

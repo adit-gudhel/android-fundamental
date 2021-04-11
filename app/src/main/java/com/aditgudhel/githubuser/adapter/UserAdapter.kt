@@ -1,59 +1,54 @@
 package com.aditgudhel.githubuser.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
-import com.aditgudhel.githubuser.data.User
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import com.aditgudhel.githubuser.activity.DetailUserActivity
 import com.aditgudhel.githubuser.R
-import de.hdodenhof.circleimageview.CircleImageView
+import com.aditgudhel.githubuser.data.User
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
-class UserAdapter internal constructor(private val context:Context) : BaseAdapter() {
+class UserAdapter(private val listUser: ArrayList<User>) : RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
-    internal var users = arrayListOf<User>()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
 
-    override fun getCount(): Int = users.size
-
-    override fun getItem(position: Int): Any = users[position]
-
-    override fun getItemId(position: Int): Long = position.toLong()
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var itemView = convertView
-        if(itemView == null) {
-            itemView = LayoutInflater.from(context).inflate(R.layout.item_user, parent, false)
-        }
-
-        val viewHolder = ViewHolder(itemView as View)
-        val user = getItem(position) as User
-        viewHolder.bind(user)
-
-        return itemView
+        return ListViewHolder(view)
     }
 
-    private inner class ViewHolder(view: View) {
-        private val tvName: TextView = view.findViewById(R.id.tv_name)
-        private val tvUsername: TextView = view.findViewById(R.id.tv_username)
-        private val civAvatar: CircleImageView = view.findViewById(R.id.civ_avatar)
-        private val tvCompany: TextView? = view.findViewById(R.id.tv_company)
-        private val tvLocation: TextView? = view.findViewById(R.id.tv_location)
-        private val tvRepository: TextView? = view.findViewById(R.id.tv_repository)
-        private val tvFollower: TextView = view.findViewById(R.id.tv_follower)
-        private val tvFollowing: TextView = view.findViewById(R.id.tv_following)
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
+        val user = listUser[position]
 
-        @SuppressLint("SetTextI18n")
-        fun bind(user: User) {
-            tvName.text = user.name
-            tvUsername.text = "@" + user.username
-            civAvatar.setImageResource(user.avatar)
-            tvCompany?.text = user.company
-            tvLocation?.text = user.location
-            tvRepository?.text = user.repository.toString()
-            tvFollower.text = user.follower.toString()
-            tvFollowing.text = user.following.toString()
+        Glide.with(holder.itemView.context)
+                .load(user.avatar)
+                .apply(RequestOptions().override(125,125))
+                .into(holder.imgAvatar)
+
+        holder.tvName.text = user.name
+        holder.tvUsername.text = "@" + user.username
+
+        holder.cvUser.setOnClickListener {
+            val toDetailUserIntent = Intent(it.context, DetailUserActivity::class.java)
+            toDetailUserIntent.putExtra(DetailUserActivity.EXTRA_USER, user)
+            it.context.startActivity(toDetailUserIntent)
         }
     }
+
+    override fun getItemCount(): Int = listUser.size
+
+    inner class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tvName: TextView = itemView.findViewById(R.id.tv_item_name)
+        var tvUsername: TextView = itemView.findViewById(R.id.tv_item_username)
+        var imgAvatar: ImageView = itemView.findViewById(R.id.img_item_avatar)
+        var cvUser: CardView = itemView.findViewById(R.id.cv_user)
+    }
+
 }
