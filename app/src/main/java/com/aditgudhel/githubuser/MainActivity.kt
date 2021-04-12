@@ -8,9 +8,11 @@ import android.widget.AdapterView
 import android.widget.ListView
 import com.aditgudhel.githubuser.adapter.UserAdapter
 import com.aditgudhel.githubuser.data.User
+import com.aditgudhel.githubuser.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: UserAdapter
     private lateinit var dataName: Array<String>
     private lateinit var dataUsername: Array<String>
@@ -24,9 +26,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
-        val listView:ListView = findViewById(R.id.lv_list)
+        val listView:ListView = binding.lvList
         adapter = UserAdapter(this)
         listView.adapter = adapter
 
